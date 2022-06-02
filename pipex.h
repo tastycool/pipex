@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 10:51:24 by tberube-          #+#    #+#             */
-/*   Updated: 2022/05/30 15:12:07 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/02 15:23:44 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,26 @@
 
 # include <stdbool.h>
 # include <stdio.h>
-# include "libft.h"
-# include "limits.h"
+# include "libft/libft.h"
+# include <limits.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <string.h>
+# include <errno.h>
+
+typedef struct s_struct
+{
+	char **env_path;
+	int	find_path;
+	char **env_split;
+	
+}	t_struct ;
 
 int		main(int argc, char **argv, char **envp);
-void	parsing(int argc, char **argv, char **envp);
+void	parsing(int argc, char **argv, char **envp, t_struct *data);
 void	nb_argument(int argc);
+void	create_fd(char **argv);
+void	check_cmd(char **argv);
+void	split_path(t_struct *data, char **envp);
 
 #endif
