@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:01:31 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/02 15:29:58 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/03 11:00:06 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,54 @@
 void	parsing(int argc, char **argv, char **envp, t_struct *data)
 {
 	data->find_path = 0;
-	while(!ft_strnstr(envp[data->find_path], "PATH=/Sy", ft_strlen(envp[data->find_path])))
+	while (ft_strncmp(envp[data->find_path], "PATH=", 5) != 0)
 		data->find_path++;
-	printf("%s", envp[data->find_path]);
 	split_path(data, envp);
 	nb_argument(argc);
-	create_fd(argv);
-	//check_cmd(argv)
+	create_fd(argv, data);
+	check_cmd(argv, data);
 }
 
 void	nb_argument(int argc)
 {
-	if (argc < 5 || argc > 5)
+	if (argc != 5)
 	{
 		dprintf(2, "Error");
 		exit(1);
 	}
 }
 
-void	create_fd(char **argv)
+void	create_fd(char **argv, t_struct *data)
 {	
-	int fd1;
-	int fd2;
 	
-	fd1 = open(argv[1], O_RDWR);
-	if (fd1 == -1)
+	data->fds[1] = open(argv[4], O_RDWR | O_CREAT, 0666);
+	data->fds[0] = open(argv[1], O_RDWR);
+	if (data->fds[0] == -1)
 		dprintf(2, "%s : %s\n", argv[1], strerror(errno));
-	fd2 = open(argv[4], O_RDWR | O_CREAT, 0666);
 }
 
-void	check_cmd(char **argv)
+void	check_cmd(char **argv, t_struct *data)
 {
-	access(argv[2], X_OK);
+	int	i;
+	int	j;
+	
+	j = 0;
+	while (j < 2)
+	{
+		i = 0;
+		data->cmdjoin = ft_strjoin("/", argv[j + 2]);
+		while (data->env_path[i] != NULL)
+		{
+			data->full_path = ft_strjoin(data->env_path[i], data->cmdjoin);
+			if (access(data->full_path, F_OK) == 0)
+			{
+				data->cmd_path[j] = data->full_path;
+				break ;
+			}
+			i++;
+		}
+		if (data->cmd_path[j] == NULL)
+				quit_cmd(data);
+		j++;	
+	}	
 }

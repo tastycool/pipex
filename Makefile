@@ -6,7 +6,7 @@
 #    By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/03 16:38:24 by tberube-          #+#    #+#              #
-#    Updated: 2022/06/02 11:58:48 by tberube-         ###   ########.fr        #
+#    Updated: 2022/06/03 10:47:45 by tberube-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = gcc
 HEADER = pipex
 
 NAME = pipex
-SRCS = parsing.c pipex.c split_path.c\
+SRCS = parsing.c pipex.c split_path.c quit.c\
 
 LIBFT_PATH = libft/
 
