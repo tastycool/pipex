@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 10:51:24 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/03 11:08:29 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/06 14:38:38 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,17 @@
 
 typedef struct s_struct
 {
-	char **env_path;
-	int	find_path;
-	char **env_split;
-	char *cmd_path[2];
-	int fds[2];
+	char 	**env_path;
+	int		find_path;
+	char 	**env_split;
+	char 	*cmd_path[2];
+	char 	*cmds[2];
+	int 	fds[2];
 	char	*cmdjoin;
 	char	*full_path;
+	int		pipefd[2];
+	char	*find_cmd;
+	int		child;
 	
 }	t_struct ;
 
@@ -41,5 +45,6 @@ void	create_fd(char **argv, t_struct *data);
 void	check_cmd(char **argv, t_struct *data);
 void	split_path(t_struct *data, char **envp);
 void	quit_cmd(t_struct *data);
+void	close_fd(t_struct *data);
 
 #endif

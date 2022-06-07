@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:01:31 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/03 11:00:06 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/06 14:21:03 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ void	parsing(int argc, char **argv, char **envp, t_struct *data)
 	nb_argument(argc);
 	create_fd(argv, data);
 	check_cmd(argv, data);
+	data->cmds[0] = argv[2];
+	data->cmds[1] = argv[3];
+	close_fd(data);
 }
 
 void	nb_argument(int argc)
@@ -43,8 +46,8 @@ void	create_fd(char **argv, t_struct *data)
 
 void	check_cmd(char **argv, t_struct *data)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	
 	j = 0;
 	while (j < 2)
@@ -54,9 +57,11 @@ void	check_cmd(char **argv, t_struct *data)
 		while (data->env_path[i] != NULL)
 		{
 			data->full_path = ft_strjoin(data->env_path[i], data->cmdjoin);
-			if (access(data->full_path, F_OK) == 0)
+			data->find_cmd = ft_substr(data->full_path, 0, (ft_strlen(data->full_path)\
+			- ft_strlen(ft_strchr(data->full_path, ' '))));
+			if (access(data->find_cmd, F_OK) == 0)
 			{
-				data->cmd_path[j] = data->full_path;
+				data->cmd_path[j] = data->find_cmd;
 				break ;
 			}
 			i++;
