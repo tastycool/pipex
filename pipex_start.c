@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 11:17:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/07 14:49:54 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/08 10:43:37 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,26 @@
 
 void	pipex_start(int argc, char **argv, char **envp, t_struct *data)
 {
-	pipe(data->pipefd);
-	data->child = fork();
-	if (data->child = 0) //dans le child
+	(void)argc;
+	data->pipe = pipe(data->pipefd);
+	if (data->fds[0] != -1)
 	{
-		dup2(data->fds[0], 0); // remplace l'entrée standard par ton fichier
-		//close()
-		dup2(data->pipefd[1], 1); // remplace la sortie standard par la sortie de ton pipe
-		// close
-		// EXECUTE TA MARDE
-		// EXIT(1)
+		data->child = fork();
+		if (data->child == 0) //dans le child
+		{
+			dup2(data->fds[0], 0); // remplace l'entrée standard par ton fichier
+			close(data->fds[0]);
+			dup2(data->pipefd[1], 1); // remplace la sortie standard par la sortie de ton pipe
+			close(data->pipefd[1]);
+			if(execve(data->cmd_path[0], ft_split(argv[2], ' '), envp) == -1);
+				free(data->cmd_path[0]); 
+			exit(1);
+		}
+		else
+			perror("Fork: ");
 	}
-	return (pipe[0]) //doit lire dans le end car le pipe vas continuer vers la 2e cmd
+	else
+		perror("Fork: ");
 }
 // void	pipex_end(int argc, char **argv, char **envp, t_struct *data)
 // {

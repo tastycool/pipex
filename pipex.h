@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 10:51:24 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/06 14:38:38 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/08 10:33:56 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_struct
 	int		pipefd[2];
 	char	*find_cmd;
 	int		child;
+	int		pipe;
 	
 }	t_struct ;
 
@@ -46,5 +47,7 @@ void	check_cmd(char **argv, t_struct *data);
 void	split_path(t_struct *data, char **envp);
 void	quit_cmd(t_struct *data);
 void	close_fd(t_struct *data);
+void	open_fd(char **argv, t_struct *data);
+void	pipex_start(int argc, char **argv, char **envp, t_struct *data);
 
 #endif
