@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 11:17:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/08 10:43:37 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/09 10:12:26 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,23 @@ void	pipex_start(int argc, char **argv, char **envp, t_struct *data)
 	else
 		perror("Fork: ");
 }
-// void	pipex_end(int argc, char **argv, char **envp, t_struct *data)
-// {
-//
-// 	data->child = fork();
-// 	if (data->child = 0) //dans le child
-// 	{
-// 		dup2(data->fd_IN DE LA DERNIERE FOONCYTION, 0); // remplace l'entrée standard par ton fichier
-// 		//close()
-// 		dup2(data->TA SORTIE, 1); // remplace la sortie standard par la sortie de ton pipe
-// 		// close
-		//EXECUTE TA MARDE
-		//QUIT SI ERREUR
+
+void	pipex_end(int argc, char **argv, char **envp, t_struct *data)
+{
+
+	data->child = fork();
+	if (data->child = 0)
+	{
+		dup2(data->fds[1], 0); // remplace l'entrée standard par ton fichier
+		dup2(data->TA SORTIE, 1); // remplace la sortie standard par la sortie de ton pipe
+		close()
+		// close
+		EXECUTE TA MARDE
+		QUIT SI ERREUR
 		
-// 	}
-// 	return (pipe[0])
-// }
+	}
+	return (pipe[0])
+}
 void	open_fd(char **argv, t_struct *data)
 {
 	data->fds[0] = open(argv[1], O_RDONLY);
