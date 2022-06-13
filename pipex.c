@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 10:56:23 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/08 09:28:29 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/10 08:26:40 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	main(int argc, char **argv, char **envp)
 	open_fd(argv, &data);				// premiere cmd (argv2) existe ou pas, avec envp
 						 				// deuxieme cmd (argv3) existe ou pas, avec envp
 										// deuxieme fd (argv4) existe ou pas, si existe pas tu le creer
-	pipex_start(argc, argv, envp, &data);
-	//pipex_end
-	//wait_pid
+	pipex_start(argv, envp, &data);
+	pipex_end(argv, envp, &data);
+	close(data.pipe);
+	quit_cmd(&data);
 }

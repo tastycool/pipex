@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Debug",
 			"program": "${workspaceFolder}/pipex",
-			"args": ["minautor", "cat -e", "wc -l", "test"],
+			"args": ["infile", "ls -l", "wc -l", "outfile"],
 			"cwd": "${workspaceFolder}"
 		}
 	]

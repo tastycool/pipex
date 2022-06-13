@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 10:51:24 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/08 10:33:56 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/10 09:07:17 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	split_path(t_struct *data, char **envp);
 void	quit_cmd(t_struct *data);
 void	close_fd(t_struct *data);
 void	open_fd(char **argv, t_struct *data);
-void	pipex_start(int argc, char **argv, char **envp, t_struct *data);
+void	pipex_start(char **argv, char **envp, t_struct *data);
+void	pipex_end(char **argv, char **envp, t_struct *data);
+void	quit_fork(t_struct *data, char *str);
 
 #endif
