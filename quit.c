@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 10:36:47 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/10 10:24:10 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/15 13:05:44 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,13 @@ void	quit_cmd(t_struct *data)
 {
 	int	i;
 
-	if (data->cmdjoin)
-		free(data->cmdjoin);
-	if (data->full_path)
-		free(data->full_path);
 	i = 0;
 	while (data->env_path[i] != NULL)
 	{
 		free(data->env_path[i]);
 		i++;
 	}
-	free(data->env_path[i]);
+	free(data->env_path);
 	if (data->cmd_path[0] != NULL)
 		free(data->cmd_path[0]);
 	if (data->cmd_path[1] != NULL)
@@ -42,6 +38,8 @@ void	quit_cmd(t_struct *data)
 
 void	close_fd(t_struct *data)
 {
-	close(data->fds[0]);
-	close(data->fds[1]);
+	if (data->fds[0] >= 0)
+		close(data->fds[0]);
+	if (data->fds[1] >= 0)
+		close(data->fds[1]);
 }

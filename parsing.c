@@ -6,11 +6,20 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:01:31 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/06 14:21:03 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/15 12:56:24 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	find_cmd(t_struct *data)
+{
+	if (ft_strchr(data->full_path, ' '))
+		data->find_cmd = ft_substr(data->full_path, 0, (ft_strlen(data->full_path)\
+		- ft_strlen(ft_strchr(data->full_path, ' '))));
+	else
+		data->find_cmd = data->full_path;
+}
 
 void	parsing(int argc, char **argv, char **envp, t_struct *data)
 {
@@ -57,15 +66,16 @@ void	check_cmd(char **argv, t_struct *data)
 		while (data->env_path[i] != NULL)
 		{
 			data->full_path = ft_strjoin(data->env_path[i], data->cmdjoin);
-			data->find_cmd = ft_substr(data->full_path, 0, (ft_strlen(data->full_path)\
-			- ft_strlen(ft_strchr(data->full_path, ' '))));
-			if (access(data->find_cmd, F_OK) == 0)
+			find_cmd(data);
+			if (access(data->find_cmd, X_OK) == 0)
 			{
 				data->cmd_path[j] = data->find_cmd;
 				break ;
 			}
+			free(data->full_path);
 			i++;
 		}
+		free(data->cmdjoin);
 		if (data->cmd_path[j] == NULL)
 				quit_cmd(data);
 		j++;	
