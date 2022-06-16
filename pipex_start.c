@@ -6,11 +6,12 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 11:17:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/15 15:39:49 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/16 09:50:04 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
 
 void	pipex_start(char **argv, char **envp, t_struct *data)
 {
@@ -30,14 +31,14 @@ void	pipex_start(char **argv, char **envp, t_struct *data)
 			free(data->cmd_path[0]);
 			exit(1);
 		}	
-		//close(data->fds[0]);
-		dup2(data->pipefd[0], 0);
-		close(data->pipefd[0]);
-		close(data->pipefd[1]);
-		dup2(data->fds[1], 1);
-		close(data->fds[1]);
 		//wait(&data->child);
 	}
+	close(data->fds[0]);
+	dup2(data->pipefd[0], 0);
+	close(data->pipefd[0]);
+	close(data->pipefd[1]);
+	dup2(data->fds[1], 1);
+	close(data->fds[1]);
 }
 
 void	pipex_end(char **argv, char **envp, t_struct *data)
@@ -54,7 +55,7 @@ void	pipex_end(char **argv, char **envp, t_struct *data)
 			exit(1);
 		}
 	}
-	//close(data->fds[1]);
+	close(data->fds[1]);
 	close(data->pipefd[0]);
 	close(data->pipefd[1]);
 }
