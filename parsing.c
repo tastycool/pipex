@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:01:31 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/16 11:47:07 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/16 14:56:04 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	find_cmd(t_struct *data)
 {
 	if (ft_strchr(data->full_path, ' '))
-		data->find_cmd = ft_substr(data->full_path, 0, (ft_strlen(data->full_path)\
+		data->find_cmd = \
+		ft_substr(data->full_path, 0, (ft_strlen(data->full_path) \
 		- ft_strlen(ft_strchr(data->full_path, ' '))));
 	else
 		data->find_cmd = data->full_path;
@@ -46,15 +47,14 @@ void	nb_argument(int argc)
 
 void	create_fd(char **argv, t_struct *data)
 {	
-	
 	data->fds[1] = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0666);
 	data->fds[0] = open(argv[1], O_RDWR);
 	if (data->fds[0] == -1)
 		dprintf(2, "%s: %s\n", strerror(errno), argv[1]);
 	if (data->fds[1] == -1)
 	{
-		dprintf(2, "%s: %s\n", strerror(errno), argv[4]);	
-		quit_cmd(data);
+		dprintf(2, "%s: %s\n", strerror(errno), argv[4]);
+		quit_cmd(data, 1);
 	}
 }
 
@@ -62,7 +62,7 @@ void	check_cmd(char **argv, t_struct *data)
 {
 	int		i;
 	int		j;
-	
+
 	j = 0;
 	while (j < 2)
 	{
@@ -82,7 +82,7 @@ void	check_cmd(char **argv, t_struct *data)
 		}
 		free(data->cmdjoin);
 		if (data->cmd_path[j] == NULL)
-				quit_cmd(data);
-		j++;	
-	}	
+			cmd_check(data, j, argv);
+		j++;
+	}
 }

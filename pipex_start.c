@@ -6,17 +6,16 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 11:17:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/16 11:47:37 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/16 15:01:52 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
 void	pipex_start(char **argv, char **envp, t_struct *data)
 {
 	if (pipe(data->pipefd) < 0)
-		return ;	
+		return ;
 	if (data->fds[0] != -1)
 	{
 		data->child = fork();
@@ -28,10 +27,8 @@ void	pipex_start(char **argv, char **envp, t_struct *data)
 			close(data->pipefd[1]);
 			close(data->pipefd[0]);
 			execve(data->cmd_path[0], ft_split(argv[2], ' '), envp);
-			free(data->cmd_path[0]);
-			exit(2);
+			quit_fork(data);
 		}	
-		//wait(&data->child);
 	}
 	close(data->fds[0]);
 	dup2(data->pipefd[0], 0);
@@ -48,10 +45,9 @@ void	pipex_end(char **argv, char **envp, t_struct *data)
 		data->child = fork();
 		if (data->child == 0)
 		{
-			//close(data->fds[1]);
 			execve(data->cmd_path[1], ft_split(argv[3], ' '), envp);
 			free(data->cmd_path[1]);
-			exit(2);
+			quit_fork(data);
 		}
 	}
 	close(data->fds[1]);
@@ -65,7 +61,7 @@ void	open_fd(char **argv, t_struct *data)
 	data->fds[1] = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (data->fds[1] < 0)
 	{
-		dprintf(2, "%s: %s\n", strerror(errno), argv[4]);	
-		quit_cmd(data);
+		dprintf(2, "%s: %s\n", strerror(errno), argv[4]);
+		quit_cmd(data, 1);
 	}
 }
