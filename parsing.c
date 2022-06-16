@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:01:31 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/16 10:15:08 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/16 11:47:07 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	nb_argument(int argc)
 	if (argc != 5)
 	{
 		dprintf(2, "Error");
-		exit(1);
+		exit(2);
 	}
 }
 
@@ -51,6 +51,11 @@ void	create_fd(char **argv, t_struct *data)
 	data->fds[0] = open(argv[1], O_RDWR);
 	if (data->fds[0] == -1)
 		dprintf(2, "%s: %s\n", strerror(errno), argv[1]);
+	if (data->fds[1] == -1)
+	{
+		dprintf(2, "%s: %s\n", strerror(errno), argv[4]);	
+		quit_cmd(data);
+	}
 }
 
 void	check_cmd(char **argv, t_struct *data)
