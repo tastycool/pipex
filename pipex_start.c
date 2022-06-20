@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 11:17:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/20 10:47:39 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/20 12:15:08 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	pipex_end(char **argv, char **envp, t_struct *data)
 
 void	open_fd(char **argv, t_struct *data)
 {
-	data->fds[0] = open(argv[1], O_RDONLY);
+	data->fds[0] = open(argv[1], O_RDONLY, 0666);
 	data->fds[1] = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (data->fds[1] < 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:01:31 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/20 10:24:40 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/20 12:14:14 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	nb_argument(int argc)
 void	create_fd(char **argv, t_struct *data)
 {	
 	data->fds[1] = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0666);
-	data->fds[0] = open(argv[1], O_RDWR);
+	data->fds[0] = open(argv[1], O_RDWR, 0666);
 	if (data->fds[0] == -1)
 		dprintf(2, "%s: %s\n", strerror(errno), argv[1]);
 	if (data->fds[1] == -1)
