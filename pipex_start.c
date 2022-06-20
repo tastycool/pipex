@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 11:17:02 by tberube-          #+#    #+#             */
-/*   Updated: 2022/06/16 15:01:52 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/06/20 10:47:39 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	pipex_start(char **argv, char **envp, t_struct *data)
 		data->child = fork();
 		if (data->child == 0)
 		{
-			dup2(data->fds[0], 0);
+			dup2(data->fds[0], STDIN_FILENO);
 			close(data->fds[0]);
-			dup2(data->pipefd[1], 1);
+			dup2(data->pipefd[1], STDOUT_FILENO);
 			close(data->pipefd[1]);
 			close(data->pipefd[0]);
 			execve(data->cmd_path[0], ft_split(argv[2], ' '), envp);
@@ -31,10 +31,10 @@ void	pipex_start(char **argv, char **envp, t_struct *data)
 		}	
 	}
 	close(data->fds[0]);
-	dup2(data->pipefd[0], 0);
+	dup2(data->pipefd[0], STDIN_FILENO);
 	close(data->pipefd[0]);
 	close(data->pipefd[1]);
-	dup2(data->fds[1], 1);
+	dup2(data->fds[1], STDOUT_FILENO);
 	close(data->fds[1]);
 }
 
